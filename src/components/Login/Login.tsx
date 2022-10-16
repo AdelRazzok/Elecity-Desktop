@@ -17,7 +17,7 @@ import {
 const Login = () => {
   return (
     <div className="show-fake-browser login-page">
-      <Container>
+      <Container className='Login-container'>
         <Header>
           <Navbar appearance="inverse">
             <Navbar.Brand>

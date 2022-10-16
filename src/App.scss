@@ -1,11 +1,12 @@
-@use './styles' as *;
+@use "./styles" as *;
 
 html {
   font-size: 100%;
   box-sizing: border-box;
 }
 
-*::before, *::after {
+*::before,
+*::after {
   box-sizing: inherit;
 }
 
@@ -15,16 +16,33 @@ body {
   font-family: $fontMontserrat;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  height: 100vh;
+
+  #root {
+    height: 100%;
+    > div {
+      height: 100%;
+      > section {
+        height: 100vh;
+        align-content: space-between;
+        main {
+          > div {
+            margin-top: 300px;
+          }
+        }
+      }
+    }
+  }
 }
 
 a {
-	text-decoration: none;
+  text-decoration: none;
 }
 
 .error-msg {
-	color: red;
+  color: red;
 }
 
 .link {
-  color: #A4A9B3;
+  color: #a4a9b3;
 }
