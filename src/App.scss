@@ -1,0 +1,30 @@
+@use './styles' as *;
+
+html {
+  font-size: 100%;
+  box-sizing: border-box;
+}
+
+*::before, *::after {
+  box-sizing: inherit;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: $fontMontserrat;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+	text-decoration: none;
+}
+
+.error-msg {
+	color: red;
+}
+
+.link {
+  color: #A4A9B3;
+}
