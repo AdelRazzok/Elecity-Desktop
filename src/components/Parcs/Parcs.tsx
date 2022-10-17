@@ -64,8 +64,6 @@ const Parcs = () => {
     })
   }, [])
 
-  // const [open, setOpen] = React.useState(false);
-  const [backdrop, setBackdrop] = React.useState('static')
   const [modalInfo, setModalInfo] = useState("")
   const handleOpen = (rowData: any) => setModalInfo(rowData)
   const handleClose = () => setModalInfo("")
@@ -85,15 +83,6 @@ const Parcs = () => {
   const handlePatch = async () => {
     PatchParcs(formValue).then(res => {
       setPatchSuccess(true)
-      // const { _id, phone } = res
-      // const { street, city, zipcode } = res.address
-      // setFormValue({
-      //   _id,
-      //   city,
-      //   street,
-      //   zipcode,
-      //   phone
-      // })
     })
   }
 
