@@ -8,10 +8,10 @@ import Hub from "./components/Hub"
 
 const App = () => {
   const { auth } = useContext(AuthContext)
-
+  
   return (
     <CustomProvider theme="dark">
-      {auth.accessToken ?
+      {auth ?
         <Hub />
       :
         <Login />}

@@ -1,4 +1,5 @@
-import React from 'react'
+import React, { useContext, useState } from 'react'
+import AuthContext from '../../context/AuthProvider'
 import './Login.scss'
 import {
   Container,
@@ -13,8 +14,34 @@ import {
   FlexboxGrid
 } from 'rsuite';
 
-
+// @ts-ignore
 const Login = () => {
+  const { auth, setAuth } = useContext(AuthContext)
+  const [credentials, setCredentials] = useState<any>({})
+
+  // @ts-ignore
+  const handleChange = (_, event) => {
+    const { name, value } = event.target
+    setCredentials((prev: any) => {
+      return {
+        ...prev,
+        [name]: value,
+      }
+    })
+  }
+
+  const handleClick = async () => {
+    const options = {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(credentials)
+    }
+    const res = await (await fetch('http://localhost:80/api/v1/users/login', options)).json()
+    setAuth(res.accessToken)
+  }
+
   return (
     <div className="show-fake-browser login-page">
       <Container className='Login-container'>
@@ -27,21 +54,21 @@ const Login = () => {
         </Header>
         <Content>
           <FlexboxGrid justify="center">
-            <FlexboxGrid.Item colspan={12}>
-              <Panel header={<h3>Login</h3>} bordered>
+            <FlexboxGrid.Item colspan={8}>
+              <Panel header={<h3>Se connecter</h3>} bordered>
                 <Form fluid>
                   <Form.Group>
-                    <Form.ControlLabel>Username or email address</Form.ControlLabel>
-                    <Form.Control name="name" />
+                    <Form.ControlLabel>Adresse mail :</Form.ControlLabel>
+                    <Form.Control name="mail" onChange={handleChange} />
                   </Form.Group>
                   <Form.Group>
-                    <Form.ControlLabel>Password</Form.ControlLabel>
-                    <Form.Control name="password" type="password" autoComplete="off" />
+                    <Form.ControlLabel>Mot de passe :</Form.ControlLabel>
+                    <Form.Control name="password" type="password" onChange={handleChange} autoComplete="off" />
                   </Form.Group>
                   <Form.Group>
                     <ButtonToolbar>
-                      <Button appearance="primary">Sign in</Button>
-                      <Button appearance="link">Forgot password?</Button>
+                      <Button appearance="primary" onClick={handleClick}>Connexion</Button>
+                      <Button appearance="link">Mot de passe oublié ?</Button>
                     </ButtonToolbar>
                   </Form.Group>
                 </Form>
