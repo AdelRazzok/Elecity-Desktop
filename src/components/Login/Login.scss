@@ -1,2 +1,9 @@
 @use '../../styles' as *;
 
+.Login-container {
+  main {
+    > div {
+      margin-top: 300px;
+    }
+  }
+}
