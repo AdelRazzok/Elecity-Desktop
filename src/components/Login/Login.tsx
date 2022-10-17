@@ -1,6 +1,7 @@
 import React, { useContext, useState } from 'react'
 import AuthContext from '../../context/AuthProvider'
 import './Login.scss'
+import Logo from '../../assets/svg/logo.svg'
 import {
   Container,
   Header,
@@ -48,7 +49,7 @@ const Login = () => {
         <Header>
           <Navbar appearance="inverse">
             <Navbar.Brand>
-              <a style={{ color: '#fff' }}>Brand</a>
+              <Logo />
             </Navbar.Brand>
           </Navbar>
         </Header>
@@ -76,7 +77,7 @@ const Login = () => {
             </FlexboxGrid.Item>
           </FlexboxGrid>
         </Content>
-        <Footer>Footer</Footer>
+        <Footer></Footer>
       </Container>
     </div>
   )
