@@ -36,37 +36,21 @@ const PatchParcs = async (formValue: any) => {
   return await (await fetch(`http://localhost:80/api/v1/platforms/${_id}`, options)).json()
 }
 
-const styles = {
-  radioGroupLabel: {
-    padding: '8px 12px',
-    display: 'inline-block',
-    verticalAlign: 'middle'
-  }
-}
-
 const cityData = ['Le Havre', 'Rouen', 'Caen'].map(item => ({
   label: item,
   value: item
 }))
 
-
 const Parcs = () => {
 
   const [platforms, setPlatforms] = useState()
 
-  useEffect(() => {
-    fetchParcs().then(res => {
-      const data = res.map((parc: any) => {
-        parc.carsCount = parc.cars.length
-        return parc
-      })
-      setPlatforms(data)
-    })
-  }, [])
-
   const [modalInfo, setModalInfo] = useState("")
   const handleOpen = (rowData: any) => setModalInfo(rowData)
-  const handleClose = () => setModalInfo("")
+  const handleClose = () => {
+    setModalInfo("")
+    setPatchSuccess(false)
+  }
   const [formValue, setFormValue] = React.useState({
     //@ts-ignore
     _id: modalInfo ? modalInfo._id : '',
@@ -101,91 +85,125 @@ const Parcs = () => {
     })
   }, [modalInfo])
 
+  useEffect(() => {
+    fetchParcs().then(res => {
+      const data = res.map((parc: any) => {
+        parc.carsCount = parc.cars.length
+        return parc
+      })
+      setPlatforms(data)
+    })
+  }, [patchSuccess])
 
   return (
-    <Table
-      autoHeight
-      data={platforms}
-    >
-      <Column flexGrow={1} align="center" fixed>
-        <HeaderCell>Id</HeaderCell>
-        <Cell dataKey="_id" />
-      </Column>
+    <div className='Parc'>
+      <Table
+        autoHeight
+        data={platforms}
+        width={1600}
+      >
+        <Column flexGrow={1} align="center" fixed>
+          <HeaderCell>Id</HeaderCell>
+          <Cell dataKey="_id" />
+        </Column>
 
-      <Column flexGrow={1}>
-        <HeaderCell>Ville</HeaderCell>
-        <Cell dataKey="address.city" />
-      </Column>
+        <Column flexGrow={1}>
+          <HeaderCell>Ville</HeaderCell>
+          <Cell dataKey="address.city" />
+        </Column>
 
-      <Column flexGrow={1}>
-        <HeaderCell>Code Postal</HeaderCell>
-        <Cell dataKey="address.zipcode" />
-      </Column>
+        <Column flexGrow={1}>
+          <HeaderCell>Code Postal</HeaderCell>
+          <Cell dataKey="address.zipcode" />
+        </Column>
 
-      <Column flexGrow={1}>
-        <HeaderCell>Adresse</HeaderCell>
-        <Cell dataKey="address.street" />
-      </Column>
+        <Column flexGrow={1}>
+          <HeaderCell>Adresse</HeaderCell>
+          <Cell dataKey="address.street" />
+        </Column>
 
-      <Column flexGrow={1}>
-        <HeaderCell>Téléphone</HeaderCell>
-        <Cell dataKey="phone" />
-      </Column>
+        <Column flexGrow={1}>
+          <HeaderCell>Téléphone</HeaderCell>
+          <Cell dataKey="phone" />
+        </Column>
 
-      <Column flexGrow={1}>
-        <HeaderCell>cars</HeaderCell>
-        <Cell dataKey="carsCount" />
-      </Column>
+        <Column flexGrow={1}>
+          <HeaderCell>cars</HeaderCell>
+          <Cell dataKey="carsCount" />
+        </Column>
 
-      <Column flexGrow={1} fixed="right">
-        <HeaderCell>...</HeaderCell>
+        <Column flexGrow={1} fixed="right">
+          <HeaderCell>...</HeaderCell>
 
-        <Cell>
-          {rowData => (
-            <>
-              <Button onClick={() => handleOpen(rowData)}>Modifier</Button>
-              <Modal
-                //@ts-ignore
-                open={rowData._id === modalInfo._id} backdrop='static' onClose={handleClose} size="xs">
-                <Modal.Header>
-                  <Modal.Title>Informations</Modal.Title>
-                </Modal.Header>
-                <Modal.Body>
-                  <Form fluid onChange={setFormValue} formValue={formValue}>
-                    <Form.Group controlId="street-9">
-                      <Form.ControlLabel>Adresse</Form.ControlLabel>
-                      <Form.Control name="street" />
-                      <Form.HelpText>Requis</Form.HelpText>
-                    </Form.Group>
-                    <Form.Group controlId="phone-9">
-                      <Form.ControlLabel>Téléphone</Form.ControlLabel>
-                      <Form.Control name="phone" />
-                    </Form.Group>
-                    <Form.Group controlId="select-10">
-                      <Form.ControlLabel>Ville</Form.ControlLabel>
-                      <Form.Control defaultValue={formValue.city} name="select" data={cityData} accepter={SelectPicker} />
-                    </Form.Group>
+          <Cell>
+            {rowData => (
+              <>
+                <Button onClick={() => handleOpen(rowData)}>Modifier</Button>
+                <Modal
+                  //@ts-ignore
+                  open={rowData._id === modalInfo._id} backdrop='static' onClose={handleClose} size="xs">
+                  <Modal.Header>
+                    <Modal.Title>Informations</Modal.Title>
+                  </Modal.Header>
+                  <Modal.Body>
+                    <Form fluid onChange={setFormValue} formValue={formValue}>
+                      <Form.Group controlId="street-9">
+                        <Form.ControlLabel>Adresse</Form.ControlLabel>
+                        <Form.Control name="street" />
+                        <Form.HelpText>Requis</Form.HelpText>
+                      </Form.Group>
+                      <Form.Group controlId="phone-9">
+                        <Form.ControlLabel>Téléphone</Form.ControlLabel>
+                        <Form.Control name="phone" />
+                        <Form.HelpText>Requis</Form.HelpText>
+                      </Form.Group>
+                      <Form.Group controlId="select-10">
+                        <Form.ControlLabel>Ville</Form.ControlLabel>
+                        <Form.Control defaultValue={formValue.city} name="select" data={cityData} accepter={SelectPicker} />
+                        <Form.HelpText>Requis</Form.HelpText>
+                      </Form.Group>
+                      <Form.Group controlId="zipcode-9">
+                        <Form.ControlLabel>Code Postal</Form.ControlLabel>
+                        <Form.Control name="zipcode" />
+                        <Form.HelpText>Requis</Form.HelpText>
+                      </Form.Group>
+                      {
+                        patchSuccess && <Message showIcon type="success" header="Success">
+                          Les informations du parc ont été modifiées avec succès.
+                        </Message>
+                      }
+                    </Form>
+                  </Modal.Body>
+                  <Modal.Footer>
                     {
-                      patchSuccess && <Message showIcon type="success" header="Success">
-                        Les informations du parc ont été modifiées avec succès.
-                      </Message>
+                      patchSuccess ?
+
+                        <>
+                          <Button onClick={handleClose} appearance="primary">
+                            Fermer
+                          </Button>
+                        </>
+
+                        :
+
+                        <>
+                          <Button onClick={handlePatch} appearance="primary">
+                            Valider
+                          </Button>
+                          <Button onClick={handleClose} appearance="subtle">
+                            Annuler
+                          </Button>
+                        </>
+
                     }
-                  </Form>
-                </Modal.Body>
-                <Modal.Footer>
-                  <Button onClick={handlePatch} appearance="primary">
-                    Valider
-                  </Button>
-                  <Button onClick={handleClose} appearance="subtle">
-                    Annuler
-                  </Button>
-                </Modal.Footer>
-              </Modal>
-            </>
-          )}
-        </Cell>
-      </Column>
-    </Table>
+                  </Modal.Footer>
+                </Modal>
+              </>
+            )}
+          </Cell>
+        </Column>
+      </Table>
+    </div>
   )
 }
 
