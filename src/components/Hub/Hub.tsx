@@ -7,6 +7,7 @@ import Parcs from '../Parcs';
 import Voitures from '../Voitures';
 import Offres from '../Offres';
 import Logo from '../../assets/svg/logo.svg'
+import Accueil from '../Accueil';
 
 const Hub = () => {
 
@@ -38,7 +39,7 @@ const Hub = () => {
         </Header>
         <Content>
           <div className='content-div'>
-            { index === 0 && <div>Accueil</div> }
+            { index === 0 && <Accueil /> }
             { index === 1 && <Parcs /> }
             { index === 2 && <Voitures /> }
             { index === 3 && <Offres /> }

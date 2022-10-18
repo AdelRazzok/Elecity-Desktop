@@ -57,6 +57,7 @@ const Voitures = () => {
     //@ts-ignore
     available: modalInfo ? modalInfo.available : false,
   })
+  
   const [patchSuccess, setPatchSuccess] = useState(false)
   const handlePatch = async () => {
     PatchVoitures(formValue).then(res => {
