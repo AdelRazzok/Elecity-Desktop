@@ -32,7 +32,7 @@ const Hub = () => {
               </Nav.Menu>
             </Nav>
             <Nav pullRight>
-              <Nav.Item className='nav-item' active={index === 6} onClick={() => setIndex(6)} icon={<CogIcon />}>Settings</Nav.Item>
+              <Nav.Item className='nav-item' active={index === 6} onClick={() => setIndex(6)} icon={<CogIcon />}>Paramètres</Nav.Item>
             </Nav>
           </Navbar>
         </Header>
@@ -44,7 +44,7 @@ const Hub = () => {
             { index === 3 && <Offres /> }
           </div>
         </Content>
-        <Footer style={{height: "50px"}}>Footer</Footer>
+        <Footer style={{height: "50px"}}></Footer>
       </Container>
     </div>
   )
